@@ -1,0 +1,15 @@
+
+# Make autocomplete ignore filename case
+set completion-ignore-case on
+
+# List matches when multiple completions possible
+set show-all-if-ambiguous on
+
+# Auto-add trailing slash when autocompleting symlink to dir
+set mark-symlinked-directories-on
+
+# Limit autocompletions to 100
+set completion-query-items 100
+
+# Flip through autocompletion matches with Shift-Tab
+"\e[Z": menu-complete
