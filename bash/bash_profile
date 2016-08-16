@@ -1,3 +1,8 @@
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
 export EDITOR="vim"
 
 #=============== OPTIONS ================
@@ -11,6 +16,6 @@ shopt -s cdspell
 # List maveric tags
 alias mavtags="svn list https://cmserv.msfc.nasa.gov/svn/maveric/maveric_repository/tags/"
 
-# Always color grep output
-alias grep="grep --color=auto"
+# Always color and add line numbers to grep output
+alias grep="grep --line-number --color=auto"
 
