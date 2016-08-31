@@ -76,7 +76,7 @@ set linebreak     "break line on whitespace only
 set ruler         "show file position
 set autoindent    "indent automatically
 set showmode      "show INSERT/VISUAL/etc
-set tags=./tags;/ "search up for tags file, until found
+set tags=./tags;  "search up for tags file, until found
 
 "========================== KEYMAPS =========================
 "maps f4 to vimgrep selected text
@@ -95,6 +95,9 @@ vnoremap k gk
 "navigate buffers with ctrl+arrow
 nnoremap <C-Left> :bp<cr>
 nnoremap <C-Right> :bn<cr>
+
+"toggle tagbar
+nmap <S-Tab> :TagbarToggle<cr>
 
 "schlepp.vim keymaps--allows dragging blocks of text around
 vmap <unique> <up>    <Plug>SchleppUp
