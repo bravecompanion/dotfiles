@@ -65,17 +65,18 @@ else
     colorscheme zenburn 
 endif
 
-set ts=4       "tab stop
-set sw=4       "soft tab stop
-set et         "emulate tabs
-set number     "line numbers
-set cursorline "highlight cursor line
-set hid        "hide rather than close
-set wrap       "wrap lines
-set linebreak  "break line on whitespace only
-set ruler      "show file position
-set autoindent "indent automatically
-set showmode   "show INSERT/VISUAL/etc
+set ts=4          "tab stop
+set sw=4          "soft tab stop
+set et            "emulate tabs
+set number        "line numbers
+set cursorline    "highlight cursor line
+set hid           "hide rather than close
+set wrap          "wrap lines
+set linebreak     "break line on whitespace only
+set ruler         "show file position
+set autoindent    "indent automatically
+set showmode      "show INSERT/VISUAL/etc
+set tags=./tags;/ "search up for tags file, until found
 
 "========================== KEYMAPS =========================
 "maps f4 to vimgrep selected text
