@@ -1,7 +1,7 @@
 #!/bin/bash
 
 dir=~/dotfiles
-files="bash/bash_profile bash/bashrc bash/inputrc"
+files="bash/bash_profile bash/bashrc bash/inputrc git/gitignore git/gitconfig"
 
 # do subdir-to-homedir files
 for file in $files; do
