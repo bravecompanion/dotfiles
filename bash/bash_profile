@@ -4,6 +4,7 @@ if [ -f ~/.bashrc ]; then
 fi
 
 export EDITOR="vim"
+export MAVREPO="https://cmserv.msfc.nasa.gov/svn/maveric/maveric_repository"
 
 #=============== OPTIONS ================
 # Append to bash history instead of overwrite:
@@ -14,8 +15,17 @@ shopt -s cdspell
 
 #=============== ALIASES =================
 # List maveric tags
-alias mavtags="svn list https://cmserv.msfc.nasa.gov/svn/maveric/maveric_repository/tags/"
+alias listmavtags="svn list https://cmserv.msfc.nasa.gov/svn/maveric/maveric_repository/tags/"
 
 # Always color and add line numbers to grep output
 alias grep="grep --line-number --color=auto"
 
+#=============== FUNCTIONS =================
+function getmavtag {
+    local PREVDIR=$PWD
+    svn co $MAVREPO/tags/$1 $2
+    printf "Generating ctags tagfile...\n"
+    cd $2
+    ctags -R
+    cd $PREVDIR
+}
