@@ -1,0 +1,29 @@
+
+# compilation files
+#######
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.pyc
+
+# temp files
+#######
+*.swp
+
+# archives
+#######
+*.7z
+*.dmg
+*.gz
+*.tar
+*.zip
+*.rar
+*.jar
+*.iso
+
+# log files
+#######
+*.log
+
