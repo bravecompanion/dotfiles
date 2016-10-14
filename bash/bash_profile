@@ -20,6 +20,9 @@ alias listmavtags="svn list https://cmserv.msfc.nasa.gov/svn/maveric/maveric_rep
 # Always color and add line numbers to grep output
 alias grep="grep --line-number --color=auto"
 
+# Set umask such that mctool is happy
+alias mctool="umask 0022 && mctool && umask 0077"
+
 #=============== FUNCTIONS =================
 function getmavtag {
     local PREVDIR=$PWD
@@ -28,4 +31,33 @@ function getmavtag {
     cd $2
     ctags -R
     cd $PREVDIR
+}
+
+function collate {
+    ################################
+    # Collates single-line output files of a given base file name
+    #
+    # INPUTS:
+    #  - base file name (do not include "asc" or "header" extensions)
+    #  - first case number to collate
+    #  - last case number to collate
+    #
+    # NOTES:
+    #  - assumes header file in same directory with data files
+    #  - puts the collated file in the working directory, so be sure
+    #    to run from the desired directory
+    ################################
+    local FPATH=$1 # base file name
+    local FIRST=$2 # first case number to collate
+    local LAST=$3  # last case number to collate
+
+    # get parent dir
+    local FNAME="$(basename $FPATH).asc"
+
+    head --lines=1 --quiet "${FPATH}.header" > $FNAME
+    echo "Collating single-line files for $FNAME, cases $FIRST to $LAST"
+    for ii in $(seq $FIRST $LAST);
+    do
+        head --lines=1 --quiet "${FPATH}.asc.${ii}" >> $FNAME
+    done
 }
