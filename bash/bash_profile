@@ -51,6 +51,15 @@ function collate {
     local FIRST=$2 # first case number to collate
     local LAST=$3  # last case number to collate
 
+    case "$1" in
+        -h)               # header present in files
+        local FPATH=$2    # base file name
+        local FIRST=$3    # first case number to collate
+        local LAST=$4     # last case number to collate
+        local TAIL="true" # use tail instead of head if header present
+        ;;
+    esac
+
     # get parent dir
     local FNAME="$(basename $FPATH).asc"
 
@@ -58,6 +67,10 @@ function collate {
     echo "Collating single-line files for $FNAME, cases $FIRST to $LAST"
     for ii in $(seq $FIRST $LAST);
     do
-        head --lines=1 --quiet "${FPATH}.asc.${ii}" >> $FNAME
+        if [ "$TAIL" = "true" ]; then
+            tail --lines=1 --quiet "${FPATH}.asc.${ii}" >> $FNAME
+        else
+            head --lines=1 --quiet "${FPATH}.asc.${ii}" >> $FNAME
+        fi
     done
 }
