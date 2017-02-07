@@ -18,7 +18,7 @@ shopt -s cdspell
 alias listmavtags="svn list https://cmserv.msfc.nasa.gov/svn/maveric/maveric_repository/tags/"
 
 # Always color and add line numbers to grep output
-alias grep="grep --line-number --color=auto"
+alias grep="grep --line-number --color=auto --exclude tags --exclude-dir=.svn --exclude-dir=obj"
 
 # Set umask such that mctool is happy
 alias mctool="umask 0022 && mctool && umask 0077"
