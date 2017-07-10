@@ -1,41 +1,15 @@
 set nocompatible
-set encoding=utf-8 "necessary for vim-airline special chars
-
-syntax on
-filetype plugin indent on
 
 "Windows-specific settings
 if has('win32') || has('win64')
+    set rtp+=$HOME/vimfiles/bundle/Vundle.vim " for vundle
+
     source $VIMRUNTIME/vimrc_example.vim
     source $VIMRUNTIME/mswin.vim
     behave mswin
 
-    set diffexpr=MyDiff()
-    function MyDiff()
-      let opt = '-a --binary '
-      if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-      if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-      let arg1 = v:fname_in
-      if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-      let arg2 = v:fname_new
-      if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-      let arg3 = v:fname_out
-      if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-      let eq = ''
-      if $VIMRUNTIME =~ ' '
-        if &sh =~ "\<cmd"
-          let cmd = '""' . $VIMRUNTIME . '\diff"'
-          let eq = '"'
-        else
-          let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-        endif
-      else
-        let cmd = $VIMRUNTIME . '\diff'
-      endif
-      silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-    endfunction
-
-    autocmd VimEnter * simalt ~x
+    "auto fullscreen
+    "autocmd VimEnter * simalt ~x
 
     "if I'm on windows, I'm on gvim (move to gvimrc someday)
     set guioptions-=m  "remove menu bar
@@ -51,6 +25,8 @@ if has('win32') || has('win64')
 
     let g:airline_theme="dark"
 else
+    set rtp+=~/.vim/bundle/Vundle.vim " for vundle
+
     "indent guides can't detect colors on terminal
     let g:indent_guides_auto_colors = 0
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=240
@@ -64,6 +40,19 @@ else
     set title      "sets the title of the xterm window
     colorscheme zenburn 
 endif
+
+"============== required for vundle
+filetype off
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'davidhalter/jedi-vim'
+call vundle#end()
+"============== end required for vundle
+
+set encoding=utf-8 "necessary for vim-airline special chars
+
+syntax on
+filetype plugin indent on
 
 set ts=4       "tab stop
 set sw=4       "soft tab stop
@@ -128,6 +117,7 @@ set wildignore=*.o,*.pyc,*.swp
 set noswapfile "don't keep a swap file
 set nobackup
 set nowritebackup
+set noundofile
 
 "configure indent guides plugin
 let g:indent_guides_start_level = 1
@@ -139,6 +129,15 @@ let g:signify_vcs_list = ['svn', 'git']
 let g:signify_update_on_focusgained = 1
 let g:signify_sign_delete            = '-'
 let g:signify_sign_delete_first_line = '_'
+
+"syntastic (syntax checking)
+let g:syntastic_python_checkers = ['python', 'pyflakes', 'mypy']
+let g:syntastic_always_populate_loc_list = 1 " dumps to loc list when doing checks
+let g:syntastic_id_checkers = 1              " indicate which checker produced which message
+let g:syntastic_auto_loc_list = 1            " auto opens and closes loc window as appropriate
+
+"vipython (ipython interface)
+let g:vipython_kernel_dir = "C:/Users/kgeohaga/AppData/Roaming/jupyter/runtime"
 
 "============== vim-airline plugin
 let g:airline_powerline_fonts = 1
@@ -184,8 +183,8 @@ set backspace=indent,eol,start "allow backspacing to go past original location
 "autocmd QuickFixCmdPost    l* nested botright lwindow
 
 "maintain argument list like buffer list
-autocmd BufAdd * argadd <afile>
-autocmd BufDelete * argdelete <afile>
+"autocmd BufAdd * argadd <afile>
+"autocmd BufDelete * argdelete <afile>
 
 autocmd BufEnter *.m    compiler mlint "Matlab syntax checking with mlint
 
