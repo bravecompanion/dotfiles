@@ -24,6 +24,7 @@ if has('win32') || has('win64')
     highlight DiffChange        guifg=#ffff00 gui=bold
 
     let g:airline_theme="dark"
+    set grepprg=grep\ -nH "-n shows line numbers, -H shows filename even when only 1 file listed
 else
     set rtp+=~/.vim/bundle/Vundle.vim " for vundle
 
@@ -45,7 +46,10 @@ endif
 filetype off
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'davidhalter/jedi-vim'
+Plugin 'python-mode/python-mode'
+Plugin 'shime/vim-livedown'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'c.vim'
 call vundle#end()
 "============== end required for vundle
 
@@ -114,6 +118,11 @@ set wildmenu
 set wildmode=longest:full,full
 set wildignore=*.o,*.pyc,*.swp
 
+"code folding
+set foldmethod=syntax
+set nofoldenable
+
+"vim files
 set noswapfile "don't keep a swap file
 set nobackup
 set nowritebackup
@@ -176,6 +185,9 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 set laststatus=2
 "============== end vim-airline plugin
 
+"livedown markdown previewing
+let g:livedown_autorun = 1
+
 set backspace=indent,eol,start "allow backspacing to go past original location
 
 "make quickfix always open when populated
@@ -187,4 +199,3 @@ set backspace=indent,eol,start "allow backspacing to go past original location
 "autocmd BufDelete * argdelete <afile>
 
 autocmd BufEnter *.m    compiler mlint "Matlab syntax checking with mlint
-
