@@ -8,9 +8,6 @@ if has('win32') || has('win64')
     source $VIMRUNTIME/mswin.vim
     behave mswin
 
-    "auto fullscreen
-    "autocmd VimEnter * simalt ~x
-
     "if I'm on windows, I'm on gvim (move to gvimrc someday)
     set guioptions-=m  "remove menu bar
     set guioptions-=T  "remove toolbar

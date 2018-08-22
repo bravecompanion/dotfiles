@@ -1,0 +1,25 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+alias python3=/opt/anaconda3/bin/python3
+alias ipython=/opt/anaconda3/bin/ipython
+
+# Disable X11 password prompt
+unset SSH_ASKPASS
+
+# Add ./ to PATH
+export PATH=$PATH:./
+
+# Change locale for terminal fonts
+export LC_ALL=en_US.utf8
+export LANG=en_US.utf8
+
+# User specific aliases and functions
+export TERM='xterm-256color'
+
+# Set directory for personal library stuff
+export PYTHONPATH=~/lib
