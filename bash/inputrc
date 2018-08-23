@@ -5,6 +5,9 @@ set completion-ignore-case on
 # List matches when multiple completions possible
 set show-all-if-ambiguous on
 
+# Indicate vi mode
+set show-mode-in-prompt on
+
 # Auto-add trailing slash when autocompleting symlink to dir
 set mark-symlinked-directories-on
 
