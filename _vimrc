@@ -43,6 +43,7 @@ endif
 filetype off
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'justinmk/vim-dirvish'
 Plugin 'python-mode/python-mode'
 Plugin 'shime/vim-livedown'
 Plugin 'christoomey/vim-tmux-navigator'
@@ -130,17 +131,18 @@ let g:indent_guides_start_level = 1
 let g:indent_guides_guide_size = 1
 autocmd VimEnter * :IndentGuidesEnable
 
+"dirvish plugin
+let g:dirvish_mode = ':sort | sort ,^.*/,'
+let g:loaded_netrwPlugin = 1
+command! -nargs=? -complete=dir Explore Dirvish <args>
+command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
+command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
+
 "signify (version control cues)
 let g:signify_vcs_list = ['svn', 'git']
 let g:signify_update_on_focusgained = 1
 let g:signify_sign_delete            = '-'
 let g:signify_sign_delete_first_line = '_'
-
-"syntastic (syntax checking)
-let g:syntastic_python_checkers = ['python', 'pyflakes', 'mypy']
-let g:syntastic_always_populate_loc_list = 1 " dumps to loc list when doing checks
-let g:syntastic_id_checkers = 1              " indicate which checker produced which message
-let g:syntastic_auto_loc_list = 1            " auto opens and closes loc window as appropriate
 
 "vipython (ipython interface)
 let g:vipython_kernel_dir = "C:/Users/kgeohaga/AppData/Roaming/jupyter/runtime"
