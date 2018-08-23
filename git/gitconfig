@@ -18,9 +18,11 @@
     changed    = yellow bold
     untracked  = red bold
 [diff]
-    tool = vimdiff
+    tool = tkdiff
 [difftool]
-    prompt = true
+    prompt = false
+[difftool "tkdiff"]
+    cmd = tkdiff $LOCAL $REMOTE&
 [github]
     user = bravecompanion
 
