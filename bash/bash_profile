@@ -25,6 +25,13 @@ alias mctool="umask 0022 && mctool && umask 0077"
 
 #=============== FUNCTIONS =================
 function getmavtag {
+    ################################
+    # Gets a given MAVERIC tag from $MAVREPO.  Additionally, executes
+    # ctags to produce source code metadata for vim.
+    #
+    # INPUTS:
+    #  - string name of desired MAVERIC tag
+    ################################
     local PREVDIR=$PWD
     svn co $MAVREPO/tags/$1 $2
     printf "Generating ctags tagfile...\n"
@@ -73,4 +80,74 @@ function collate {
             head --lines=1 --quiet "${FPATH}.asc.${ii}" >> $FNAME
         fi
     done
+}
+
+function mavdev {
+    ################################
+    # Creates a new (or attaches to an existing) tmux session configured
+    # for MAVERIC development/analysis
+    #
+    # INPUTS:
+    #  - top-level MAVERIC directory.  If no argument is passed, assumes
+    #    the current directory is intended
+    #
+    # NOTES:
+    #  - names a session based on the name of the directory; sanitizes
+    #    for period characters as they cause problems for tmux sessions
+    #  - if a session already exists with the same name, attaches to that
+    #    session instead
+    ################################
+    ORIG=${PWD} # save starting directory
+
+    # input handling; if no input, assume current dir is desired directory.  If
+    # given an argument, check to make sure directory exists, then use that.
+    if [ -z "$1" ]; then
+        DNAME=${PWD##*/} # basename of working dir without using basename
+    else
+        if [ -d "$1" ]; then
+            DNAME="$1"
+            cd $DNAME
+        else
+            echo "'$1' not found in '${PWD}'"
+            exit 1 # exit with general error code 1
+        fi
+    fi
+
+    # check to make sure the selected directory looks like a top-level maveric
+    # directory
+    if [ -d "srcm" ] && \
+       [ -d "srcv" ] && \
+       [ -d "datam" ] && \
+       [ -d "datav" ] && \
+       [ -f "make_makefile" ]; then
+        SESNAME="${DNAME//./-}" # sanitize directory name (tmux doesn't allow 
+                                # periods) to construct session name
+    else
+        echo "'$DNAME' doesn't appear to be a MAVERIC directory"
+        if [ $ORIG != ${PWD} ]; then
+            cd $ORIG # get back to original directory
+        fi
+        exit 1
+    fi
+
+    # (try to) create session
+    tmux new-session -s ${SESNAME} -d
+
+    if [ $? != 1 ]; then # exit code not 1
+        # open vim
+        tmux send-keys -t ${SESNAME} "vim SLS_VAC1R/sensor.def" C-m
+        tmux send-keys -t ${SESNAME} ":e SLS_VAC1R/config_SLS10009.def" C-m
+        tmux send-keys -t ${SESNAME} ":e srcv/sls_nav_sa1.cpp" C-m
+
+        # split vertical
+        tmux split-window -t ${SESNAME} -h
+
+        # split horizontal
+        tmux split-window -t ${SESNAME} -v
+        tmux send-keys -t ${SESNAME} "ipython" C-m
+        tmux resize-pane -R 10
+        tmux resize-pane -U 15
+    fi
+
+    tmux attach -t ${SESNAME}
 }
