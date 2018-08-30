@@ -1,7 +1,12 @@
 #!/bin/bash
 
 dir=~/dotfiles
-files="bash/bash_profile bash/bashrc bash/inputrc git/gitignore git/gitconfig"
+files="bash/bash_profile \
+       bash/bashrc \
+       bash/inputrc \
+       git/gitignore \
+       git/gitconfig \
+       tmux/tmux.conf"
 
 # do subdir-to-homedir files
 for file in $files; do
