@@ -170,7 +170,7 @@
  '(org-agenda-files (quote ("~/org/inbox.org" "~/org/gtd.org")))
  '(package-selected-packages
    (quote
-    (shell-pop grab-mac-link org-mac-link smooth-scrolling auto-complete highlight-indent-guides evil ##)))
+    (diff-hl org-bullets rainbow-delimiters jupyter shell-pop grab-mac-link org-mac-link smooth-scrolling auto-complete highlight-indent-guides evil ##)))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -209,11 +209,11 @@
  (set-face-attribute 'default nil
                      :family "Menlo" :height 150 :weight 'normal)
  (set-face-attribute 'default nil
-                     :family "Hack Nerd Font" :height 110 :weight 'normal))
+                     :family "hack" :height 150 :weight 'normal))
 (global-hl-line-mode t) ; highlight current line
 
 ; window splitting behavior
-(setq split-width-threshold 100 ; only split to the right if we have 100 columns
+(setq split-width-threshold 160 ; only split to the right if we have 160 columns
       window-min-height 20)     ; make splits at least 20 lines high
 
 ; window resize bindings
@@ -244,6 +244,7 @@
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
 
+; make ESC actually quit things
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
@@ -291,6 +292,14 @@
 (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
 (define-key evil-visual-state-map "j" 'evil-next-visual-line)
 (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+;; Easy window nav
+(define-key evil-normal-state-map (kbd "C-j") 'next-buffer)
+(define-key evil-normal-state-map (kbd "C-k") 'previous-buffer)
+(define-key evil-normal-state-map (kbd "C-S-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-S-j") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "C-S-k") 'evil-window-up)
+(define-key evil-normal-state-map (kbd "C-S-l") 'evil-window-right)
 
 ; give visual cue of active window
 (setq cursor-in-non-selected-windows nil) ; remove cursor on inactive windows (so active one is more apparent)
